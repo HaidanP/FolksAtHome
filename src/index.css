@@ -1,0 +1,223 @@
+/* Leaflet base */
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+}
+
+.scroll-container {
+  height: 100dvh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Cherry blossom glow on service area polygon */
+@keyframes blossom-glow {
+  0%, 100% {
+    stroke: #EC4899;
+    stroke-opacity: 0.9;
+    filter: drop-shadow(0 0 6px rgba(236,72,153,0.7)) drop-shadow(0 0 14px rgba(236,72,153,0.4));
+  }
+  50% {
+    stroke: #F9A8D4;
+    stroke-opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(249,168,212,0.95)) drop-shadow(0 0 28px rgba(236,72,153,0.6));
+  }
+}
+.service-area-path {
+  animation: blossom-glow 2.4s ease-in-out infinite;
+  stroke-width: 3;
+  fill: rgba(236, 72, 153, 0.08);
+  fill-opacity: 1;
+}
+
+/* Hide Leaflet attribution branding */
+.leaflet-control-attribution { display: none; }
+.leaflet-control-zoom { display: none; }
+
+@keyframes marquee-ltr {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes marquee-rtl {
+  0%   { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.marquee-ltr { animation: marquee-ltr 55s linear infinite; }
+.marquee-rtl { animation: marquee-rtl 70s linear infinite; }
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Responsive video panels inside snap sections */
+.section-video {
+  position: relative;
+  overflow: hidden;
+  height: 30%;
+}
+@media (min-width: 640px) { .section-video { height: 42%; } }
+@media (min-width: 1024px) { .section-video { height: 52%; } }
+
+.section-video-tall {
+  position: relative;
+  overflow: hidden;
+  height: 34%;
+}
+@media (min-width: 640px) { .section-video-tall { height: 46%; } }
+@media (min-width: 1024px) { .section-video-tall { height: 58%; } }
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  background: #000;
+  color: #fff;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  text-align: left;
+  border: none;
+  min-height: 100svh;
+  display: block;
+}
+
+.liquid-glass {
+  background: rgba(0, 0, 0, 0.4);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.metrics-glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.metrics-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.08) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes stepEnterForward {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes stepEnterBack {
+  from { opacity: 0; transform: translateX(-28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.step-enter-forward { animation: stepEnterForward 0.3s cubic-bezier(0.22,1,0.36,1) both; }
+.step-enter-back    { animation: stepEnterBack    0.3s cubic-bezier(0.22,1,0.36,1) both; }
+
+@keyframes errorIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.error-in { animation: errorIn 0.18s ease both; }
+
+@keyframes donate-pulse {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(236, 72, 153, 0.5), 0 0 28px rgba(236, 72, 153, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(236, 72, 153, 0.85), 0 0 48px rgba(236, 72, 153, 0.55);
+  }
+}
+
+.btn-donate {
+  background: #EC4899;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+  animation: donate-pulse 2s ease-in-out infinite;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-donate:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 28px rgba(236, 72, 153, 0.95), 0 0 56px rgba(236, 72, 153, 0.65);
+  animation: none;
+}
+
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.1) 80%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
