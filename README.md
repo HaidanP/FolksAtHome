@@ -14,7 +14,7 @@ Built as a CS284 final project by Haidan Parajuli.
 | Backend | Flask (Python) |
 | Database | MariaDB / MySQL |
 | Auth | bcrypt password hashing |
-| Maps | Leaflet + React Leaflet |
+
 
 ---
 
